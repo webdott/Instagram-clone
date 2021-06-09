@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import { lazy, Suspense } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Loader from './components/Loader/loader.component';
+import * as ROUTES from './constants/routes';
+import useAuthListener from './hooks/use-auth-listener';
+import UserContext from './contexts/userContext';
+import './styles/app.css';
 
-function App() {
+const Login = lazy(() => import('./pages/login'));
+const Signup = lazy(() => import('./pages/signup'));
+const NotFound = lazy(() => import('./pages/not-found'));
+const Dashboard = lazy(() => import('./pages/dashboard'));
+
+const App = () => {
+  const { user } = useAuthListener();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserContext.Provider value={{user}}>
+      <Router>
+        <Suspense fallback={<Loader />}>
+          <Switch>
+            <Route exact path={ROUTES.DASHBOARD} component={Dashboard}/>
+            <Route path={ROUTES.LOGIN} component={Login}/>
+            <Route path={ROUTES.SIGN_UP} component={Signup}/>
+            <Route component={NotFound}/>
+          </Switch>
+        </Suspense>
+      </Router>
+    </UserContext.Provider>
   );
 }
 
 export default App;
+
+// Client side rendered app react(cra)
+  // -> connect to our database - Firebase
+  // -> react-loading-skeleton
+  // -> using tailwind css
+  
+// Architecture (Folder structure)
+  // src 
+    // -> components, 
+    // -> constants, 
+    // -> contexts, 
+    // -> helpers, 
+    // -> pages
+    // -> lib(firebase staying here), 
+    // -> services(firebase functions)
+    // -> styles (tailwind - app/tailwind)
