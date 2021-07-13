@@ -10,6 +10,9 @@ const Login = lazy(() => import('./pages/login'));
 const Signup = lazy(() => import('./pages/signup'));
 const NotFound = lazy(() => import('./pages/not-found'));
 const Dashboard = lazy(() => import('./pages/dashboard'));
+const ProtectedRoute = lazy(() => import('./components/ProtectedRoute/ProtectedRoute.component'));
+const IsUserLoggedIn = lazy(() => import('./components/IsUserLoggedIn/IsUserLoggedIn.component'));
+const Profile = lazy(() => import('./pages/profile'));
 
 const App = () => {
   const { user } = useAuthListener();
@@ -19,9 +22,10 @@ const App = () => {
       <Router>
         <Suspense fallback={<Loader />}>
           <Switch>
-            <Route exact path={ROUTES.DASHBOARD} component={Dashboard}/>
-            <Route path={ROUTES.LOGIN} component={Login}/>
-            <Route path={ROUTES.SIGN_UP} component={Signup}/>
+            <ProtectedRoute exact path={ROUTES.DASHBOARD} user={user} component={Dashboard}/>
+            <IsUserLoggedIn path={ROUTES.LOGIN} user={user} component={Login}/>
+            <IsUserLoggedIn path={ROUTES.SIGN_UP} user={user}  component={Signup}/>
+            <Route path={ROUTES.PROFILE} component={Profile}/>
             <Route component={NotFound}/>
           </Switch>
         </Suspense>
@@ -47,3 +51,10 @@ export default App;
     // -> lib(firebase staying here), 
     // -> services(firebase functions)
     // -> styles (tailwind - app/tailwind)
+
+/*
+  => To-Do:
+     Fix the liked by ... and others
+     Do the Modal for posts and probably modal page
+     Close modal by clicking outside
+*/ 

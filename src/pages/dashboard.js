@@ -12,7 +12,7 @@ const Dashboard = () => {
     return (
         <div className='bg-gray-background'>
             <Header />
-            <div className="grid grid-cols-3 gap-4 justify-between container mx-auto h-full max-w-screen-lg px-5">
+            <div className="grid grid-cols-3 gap-4 justify-between container mx-auto h-screen max-h-screen max-w-screen-lg px-5">
                 <Timeline />
                 <Sidebar />
             </div>

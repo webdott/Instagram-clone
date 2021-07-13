@@ -7,8 +7,18 @@ module.exports = {
   },
   theme: {
     fill: (theme) => ({
-      red: theme('colors.red.primary')
+      red: theme('colors.red.primary'),
+      black: theme('colors.black.dark')
     }),
+    maxHeight: {
+      '0': '0',
+      '1/4': '25%',
+      '1/2': '50%',
+      '3/4': '75%',
+      '97': '97vh',
+      'full': '100%',
+      'screen': '100vh'
+    },
     colors: {
       white: '#ffffff',
       blue: {
@@ -17,7 +27,8 @@ module.exports = {
       },
       black: {
         light: '#262626',
-        faded: '#00000059'
+        faded: '#00000059',
+        dark: '#000000'
       },
       gray: {
         base: '#616161',
@@ -31,11 +42,25 @@ module.exports = {
       }
     },
     screens: {
+      'md': {'min': '768px'},
       '2md': {'min': '1000px'} 
     },
     'fontSize':{
       'xs': '.85rem',
-      'xxs': '.75rem'
+      'sm': '.9rem',
+      'xxs': '.75rem',
+      '2xl': '1.5rem'
+    },
+    extend: {
+      animation: {
+        'wiggle': 'wiggle .5s normal forwards ease-in-out',
+      },
+      keyframes: {
+       wiggle: {
+         '0%, 100%': { transform: 'scale(1)' },
+         '50%': { transform: 'scale(1.2)' },
+        }
+      }
     }
   },
   variants: {

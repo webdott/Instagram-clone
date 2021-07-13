@@ -32,11 +32,11 @@ const SuggestedProfile = ({
 
     return !followed && (
         <div className='grid grid-cols-4 gap-4 mb-6 items-center'>
-            <Link to={`/p/${userName}`} className='flex items-center justify-center col-span-1'>
+            <Link to={`/u/${userName}`} className='flex items-center justify-center col-span-1'>
                 <Avatar email={email} name={fullName} round={true} size={'2.5rem'}/>
             </Link>
             <div className="col-span-2">
-                <Link to={`/p/${userName}`} className='font-bold text-xs hover:underline'>
+                <Link to={`/u/${userName}`} className='font-bold text-xs hover:underline'>
                     {userName}
                 </Link>
                 <p className='text-gray-faded text-xs overflow-hidden overflow-ellipsis'>

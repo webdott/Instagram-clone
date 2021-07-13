@@ -6,11 +6,11 @@ const Timeline = () => {
     const { photos } = usePhotos();
 
     return (
-        <div className='container col-span-2'>
+        <div className='timeline container col-span-2 pt-20 h-screen max-h-screen overflow-y-auto'>
             {!photos ? (
                 [...new Array(4)].map((_, idx) => (
-                    <div className='mb-4' key={idx} style={{width:'90%'}}>
-                        <Skeleton count={1} height={500}/>
+                    <div className='mb-4' key={idx} style={{width:'98%'}}>
+                        <Skeleton count={1} height={600}/>
                     </div>
                 ))
             ): photos?.length > 0 ? (

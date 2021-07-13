@@ -10,6 +10,38 @@ export const doesUserNameExist = async (username) => {
     return result.docs.map(user => user.data().length > 0);
 }
 
+export const getUserByUsername = async (username) => {
+    const result = await firebase
+        .firestore()
+        .collection('users')
+        .where('username', '==', username)
+        .get();
+
+    const user = result.docs.map(item => ({
+        ...item.data(),
+        docId: item.id
+    }));
+
+    return user.length > 0 ? user : false;
+}
+
+
+export const getUserPhotosByUserId = async (userId) => {
+    const result = await firebase
+        .firestore()
+        .collection('photos')
+        .where('userId', '==', userId)
+        .get();
+
+    const photos = result.docs.map(item => ({
+        ...item.data(),
+        docId: item.id
+    }));
+
+    return photos;
+}
+
+
 export const getUserById = async (userId) => {
     const result = await firebase
         .firestore()
@@ -25,7 +57,7 @@ export const getUserById = async (userId) => {
     return user;
 }
 
-export const getSugestedProfiles = async (id, following) => {
+export const getSuggestedProfiles = async (id, following) => {
     const result = await firebase
         .firestore()
         .collection('users')
@@ -66,6 +98,22 @@ export const updateFollowingById = async (userDocId, followedId, isFollowingProf
         })
 }
 
+export const isUserFollowingProfileUser = async (loggedInUserUsername, profileUserId) => {
+    const result = await firebase
+        .firestore()
+        .collection('users')
+        .where('username', '==', loggedInUserUsername)
+        .where('following', 'array-contains', profileUserId)
+        .get();
+
+    const [response = {}] = result.docs.map(item => ({
+        ...item.data(),
+        docId: item.id
+    }));
+
+    return response;
+}
+
 export const getPhotosById = async (userId, following) => {
     const result = await firebase
         .firestore()
@@ -79,6 +127,9 @@ export const getPhotosById = async (userId, following) => {
         docId: photo.id 
     }));
         
+    /*
+        => get photos posted by people you follow
+    */ 
     const photosWithUserDetails = await Promise.all(
         photos.map(async photo => {
             let userLikedPhoto = false;

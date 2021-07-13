@@ -7,3 +7,54 @@ body{
     margin: 0 auto;
     border: 1px solid #c7c7c7;
 }
+
+.header-search::-webkit-input-placeholder {
+  text-align: center;
+}
+
+.header-search:-moz-placeholder { /* Firefox 18- */
+  text-align: center;  
+}
+
+.header-search::-moz-placeholder {  /* Firefox 19+ */
+  text-align: center;  
+}
+
+.header-search:-ms-input-placeholder {  
+  text-align: center; 
+}
+
+.timeline::-webkit-scrollbar {
+  display: none;
+}
+
+.timeline {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.add-comment-form{
+  min-height: 50px;
+  max-height: 120px;
+  width: 100%;
+}
+
+.add-comment{
+  width: 95%;
+  max-height: 80px;
+}
+
+.add-comment .input{
+  width: 100%;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  position: relative;
+  padding: .2rem 0;
+  z-index: 2;
+  max-height: 90px;
+  overflow-y: auto;
+}
+
+.add-comment p{
+  top: 15%;
+}

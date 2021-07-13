@@ -10,7 +10,7 @@ const Sidebar = () => {
     } = useUser();
 
     return (
-        <div className='hidden 2md:block'>
+        <div className='hidden 2md:block mt-28'>
             <User userName={username} fullName={fullName} email={emailAddress}/>
             <Suggestions userId={userId} docId={docId} following={following}/>
             <div className="sidebar-footer">
@@ -26,7 +26,12 @@ const Sidebar = () => {
                 <Link to={`##`} className='text-xxs text-gray-secondary'>Hashtags &middot; </Link> 
                 <Link to={`##`} className='text-xxs text-gray-secondary'>Language</Link>
 
-                <p className='mt-2 text-xxs text-gray-secondary'>© 2021 INSTAGRAM BY <a className='text-blue-medium' href="https://github.com/caspero-62">__webdot</a></p>
+                <p className='mt-2 text-xxs text-gray-secondary'>
+                    © 2021 INSTAGRAM-CLONE BY 
+                    <a className='text-blue-medium' href="https://github.com/caspero-62" target='_blank' rel='noreferrer'>
+                        &nbsp; Webdot🕷
+                    </a>
+                </p>
             </div>
         </div>
     );

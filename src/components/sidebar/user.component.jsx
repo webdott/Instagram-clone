@@ -11,11 +11,11 @@ const User = ({ userName, fullName, email}) => {
         </div>
     ) : (
         <div className='grid grid-cols-4 gap-4 mb-6 items-center'>
-            <Link to={`/p/${userName}`} className='flex items-center justify-center col-span-1'>
+            <Link to={`/u/${userName}`} className='flex items-center justify-center col-span-1'>
                 <Avatar email={email} name={fullName} round={true} size={'3.5rem'}/>
             </Link>
             <div className="col-span-2">
-                <Link to={`/p/${userName}`} className='font-bold text-xs'>
+                <Link to={`/u/${userName}`} className='font-bold text-xs'>
                     {userName}
                 </Link>
                 <p className='text-gray-faded text-xs'>{fullName}</p>
