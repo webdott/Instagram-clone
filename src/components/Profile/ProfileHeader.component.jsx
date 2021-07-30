@@ -1,49 +1,71 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import useUser from '../../hooks/use-user';
-import { isUserFollowingProfileUser } from '../../services/firebase-service';
+import { isUserFollowingProfileUser, toggleFollow } from '../../services/firebase-service';
 import Skeleton from 'react-loading-skeleton';
 import Avatar from 'react-avatar';
+import getSimilarFollowers from '../../helpers/getSimilarFollowers';
+import { getUserById } from '../../services/firebase-service';
 
 const ProfileHeader = ({ 
     postCount, 
     followerCount, 
     setFollowerCount ,
-    profile: { userId: profileUserId, docId: profileDocId, fullName, emailAddress, username: profileUsername, following }, 
+    profile: { userId: profileUserId, docId: profileDocId, fullName, emailAddress, username: profileUsername, followers, following }, 
     }) => {
     const { user } = useUser();
     const [isFollowingUser, setIsFollowingUser] = useState(false);
+    const [followerNames, setFollowerNames] = useState([]);
     const activeButtonFollow = user.username && user.username !== profileUsername;
 
-    const handleToggleFollow = () => {
+    const handleToggleFollow = async () => {
         setIsFollowingUser(isFollowingUser => !isFollowingUser);
         setFollowerCount({
             followerCount: isFollowingUser ? followerCount - 1 : followerCount + 1,
-        })
+        });
+        await toggleFollow(isFollowingUser, user.docId, profileDocId, profileUserId, user.userId);
     }
+
+    // Change document's title according to username....
+    useEffect(() => {
+        if(profileUsername) document.title = `@${profileUsername} | Instagram`
+    }, [profileUsername]);
 
     useEffect(() => {
         const isLoggedInUserFollowingProfile = async () => {
             const isFollowing = await isUserFollowingProfileUser(user.username, profileUserId);
-            setIsFollowingUser(!!isFollowing); 
+            setIsFollowingUser(!!Object.entries(isFollowing).length); 
         }
 
-        if(user.username && profileUserId) isLoggedInUserFollowingProfile();
-    }, [user.username, profileUserId]);
+        // get shared followers
+        const getSimilarFollowersNames = async () => {
+            const followerIds = getSimilarFollowers(followers, user.following);
+            const followerNames = await Promise.all(followerIds.map(async followerId => {
+                const [{username}] = await getUserById(followerId);
+                return username;
+            }));
+            setFollowerNames(followerNames);
+        }
+        
+        if(user.username && profileUserId) {
+            isLoggedInUserFollowingProfile();
+            getSimilarFollowersNames();
+        } 
+    }, [user.username,user.following, followers, profileUserId]);
 
     return (
-        <div className='grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg'>
-            <div className="container flex justify-center">
+        <div className='grid grid-cols-3 gap-4 justify-around mx-auto max-w-screen-lg'>
+            <div className="container flex-col col-span-1 justify-center md:ml-16 h-28 w-28 md:h-40 md:w-40">
                 {emailAddress && fullName ? (
-                    <Avatar email={emailAddress} name={fullName} round={true} size={'10rem'}/>
+                    <Avatar email={emailAddress} name={fullName} round={true} size={'100%'}/>
                 ) : (
-                    <Skeleton circle={true} height={'10rem'} width={'10rem'}/>
+                    <Skeleton circle={true} height={'100%'} width={'100%'}/>
                 )}
             </div>
             <div className="flex items-center justify-center flex-col col-span-2">
                 <div className="container flex items-center">
                     <p className="text-2xl mr-4">{profileUsername}</p>
-                    {activeButtonFollow && (
+                    {activeButtonFollow ? (
                         <button 
                             className={
                                 `${isFollowingUser 
@@ -61,19 +83,74 @@ const ProfileHeader = ({
                                 }
                             }}
                         >
-                            {isFollowingUser 
-                                ? (
+                            {isFollowingUser && 
+                                (
                                     <span className='flex items-center justify-center text-black-faded'>
                                         <i className="fas fa-user"></i>
                                         <i className="fas fa-check"></i>
                                     </span>
                                 )
-                                : 'Follow'
                             }
+                            {!isFollowingUser && 'Follow'}
+                        </button>
+                    ) : (
+                        <button 
+                            className='bg-gray-background border border-gray-primary 
+                            font-bold text-sm rounded w-24 h-8 cursor-pointer 
+                            flex items-center justify-center focus:outline-none'
+                            type='button'
+                        >
+                            <span className='flex items-center justify-center text-black-dark'>Edit Profile</span>
                         </button>
                     )}
                 </div>
-                {/* <div className="container mt-4"></div> */}
+                <div className="container flex mt-4 mb-4 w-full">
+                    {following === undefined ? (
+                        <div style={{width: '100%', marginRight: '5%'}}>
+                            <Skeleton count={1} height={24}/>
+                        </div>
+                    ) : (
+                        <>
+                            <p className='mr-10'>
+                                <span className="font-bold">{postCount}</span>{ ' ' }
+                                {postCount === 1 ? 'post' : 'posts'}
+                            </p>
+                            <p className='mr-10'>
+                                <span className="font-bold">{followerCount}</span>{ ' ' }
+                                {followerCount === 1 ? 'follower' : 'followers'}
+                            </p>
+                            <p className='mr-10'>
+                                <span className="font-bold">{following.length}</span>{ ' ' }
+                                following
+                            </p>
+                        </>
+                    )}
+                </div>
+                <p className="container flex font-semibold">
+                    {fullName}
+                </p>
+                <div className="container flex w-full mt-2">
+                    {following === undefined ? (
+                        <div style={{width: '100%', marginRight: '5%'}}>
+                            <Skeleton count={1} height={24}/>
+                        </div>
+                    ) : (
+                        <p className='cursor-pointer text-gray-faded text-xxs'>
+                            {followerNames.length > 0 && activeButtonFollow
+                                ? ( 
+                                    <>
+                                        Followed by {' '} 
+                                        <span className='font-bold text-black-dark'>{followerNames[0]}</span> 
+                                        {followerNames[1] ? (<><span>, </span> <span className='font-bold text-black-dark'>{followerNames[1]}</span></>) : ''}
+                                        {followerNames[2] ? (<><span>, </span> <span className='font-bold text-black-dark'>{followerNames[2]}</span></>) : ''} 
+                                        {followerNames.length > 3 ? ` + ${followerNames.length - 3} more` : ''} 
+                                    </>
+                                )
+                                : ''
+                            }
+                        </p>
+                    )}
+                </div>
             </div>
         </div>
     );

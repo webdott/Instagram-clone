@@ -1,8 +1,11 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import PropTypes from 'prop-types';
 import FirebaseContext from '../../contexts/firebaseContext';
 import UserContext from '../../contexts/userContext';
 import { Link } from "react-router-dom";
+import getSimilarFollowers from "../../helpers/getSimilarFollowers";
+import useUser from "../../hooks/use-user";
+import { getUserById } from "../../services/firebase-service";
 
 const PostActions = ({ docId, totalLikes, likedPhoto, handleFocus, likers  }) => {
     const {
@@ -12,8 +15,27 @@ const PostActions = ({ docId, totalLikes, likedPhoto, handleFocus, likers  }) =>
     const [isLiked, setIsLiked] = useState(likedPhoto);
     const [likes, setLikes] = useState(totalLikes); 
     const [bookmark, setBookmark] = useState(false);
+    const [likerNames, setLikerNames] = useState([]);
 
     const { firebase, FieldValue } = useContext(FirebaseContext);
+    const { user } = useUser();
+
+
+    useEffect(() => {
+        // get likers names
+        const getSimilarLikersNames = async () => {
+            const likerIds = getSimilarFollowers(likers, user.following);
+            const likerNames = await Promise.all(likerIds.map(async likerId => {
+                const [{username}] = await getUserById(likerId);
+                return username;
+            }));
+            setLikerNames(likerNames);
+        }
+        
+        if(user.following && likers) {
+            getSimilarLikersNames();
+        } 
+    }, [user.following, likers]);
 
     const handleLiked = async() => {
         setIsLiked((isLiked) => !isLiked);
@@ -69,12 +91,12 @@ const PostActions = ({ docId, totalLikes, likedPhoto, handleFocus, likers  }) =>
                     ? '1 like' 
                     : likes === 0 
                         ? '0 likes'
-                        : (
-                            <p>
-                                liked by <Link to='/p/__' className='font-bold'>{likes}</Link> and <span className='font-bold'>others</span>
+                        : likerNames.length > 0 ? ( // this is really bad. Restructure
+                            <p className='cursor-pointer'>
+                                liked by <Link to={`/u/${likerNames[0]}`} className='font-bold hover:underline'>{likerNames[0]}</Link> {likerNames.length > 1 ? (<> and <span className='font-bold'>others</span></>) : ''}
                             </p>
-                        )
-                }
+                        ) : `${likes} likes`
+                } 
             </div>
         </>
     )

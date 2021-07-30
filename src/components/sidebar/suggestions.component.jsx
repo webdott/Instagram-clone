@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
-import { getSuggestedProfiles, getUserById } from '../../services/firebase-service';
+import { getSuggestedProfiles } from '../../services/firebase-service';
 import SuggestedProfile from './SuggestedProfile.component';
 
 const Suggestions = ({ userId, docId, following }) => {
@@ -18,15 +18,6 @@ const Suggestions = ({ userId, docId, following }) => {
         }
     }, [userId, following]);
 
-    const getFollowersById = (followers) => {
-        return followers.length > 0 
-            ? followers.map(async (followerId) => {
-                const [{username}] = await getUserById(followerId);
-                return username
-            })
-            : [];
-    }
-
 
     return (
         profiles && profiles.length > 0 ? (
@@ -39,16 +30,13 @@ const Suggestions = ({ userId, docId, following }) => {
                 </div>
                 <div>
                     { profiles.map((profile) => {  
-                        const followers = getFollowersById(profile.followers);   
-                        console.log(followers);
-
                         return(
                             <SuggestedProfile 
                                 fullName={profile.fullName}
                                 userName={profile.username} 
                                 loggedUserDocId={docId}
                                 spDocId={profile.docId}
-                                followers={followers}
+                                followers={profile.followers}
                                 email={profile.emailAddress} 
                                 key={profile.docId}
                                 profileId={profile.userId}

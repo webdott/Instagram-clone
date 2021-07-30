@@ -25,7 +25,7 @@ const App = () => {
             <ProtectedRoute exact path={ROUTES.DASHBOARD} user={user} component={Dashboard}/>
             <IsUserLoggedIn path={ROUTES.LOGIN} user={user} component={Login}/>
             <IsUserLoggedIn path={ROUTES.SIGN_UP} user={user}  component={Signup}/>
-            <Route path={ROUTES.PROFILE} component={Profile}/>
+            <ProtectedRoute path={ROUTES.PROFILE} user={user} component={Profile}/>
             <Route component={NotFound}/>
           </Switch>
         </Suspense>

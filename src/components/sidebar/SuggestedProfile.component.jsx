@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import Avatar from 'react-avatar';
-import { updateFollowersById, updateFollowingById } from '../../services/firebase-service';
+import { getUserById, updateFollowersById, updateFollowingById } from '../../services/firebase-service';
+import useUser from '../../hooks/use-user';
+import getSimilarFollowers from '../../helpers/getSimilarFollowers';
 
 const SuggestedProfile = ({ 
     userName, 
@@ -15,6 +17,21 @@ const SuggestedProfile = ({
     userId
 }) => {
     const [followed, setFollowed] = useState(false);
+    const [followerNames, setFollowerNames] = useState([]);
+    const { user } = useUser();
+
+    useEffect(() => {
+        const getSimilarFollowersNames = async () => {
+            const followerIds = getSimilarFollowers(followers, user.following);
+            const followerNames = await Promise.all(followerIds.map(async followerId => {
+                const [{username}] = await getUserById(followerId);
+                return username;
+            }));
+            setFollowerNames(followerNames);
+        }
+
+        if(user.following && followers) getSimilarFollowersNames();
+    }, [user.following, followers]);
 
     const handleFollowUser = async () => {
         setFollowed(true);
@@ -40,8 +57,8 @@ const SuggestedProfile = ({
                     {userName}
                 </Link>
                 <p className='text-gray-faded text-xs overflow-hidden overflow-ellipsis'>
-                    {followers.length > 0 ? 
-                        `Followed by ${followers[0]} ${followers.length > 1 ? `+ ${followers.length - 1} more` : ''}` 
+                    {followerNames.length > 0 ? 
+                        `Followed by ${followerNames[0]} ${followerNames.length > 1 ? `+ ${followerNames.length - 1} more` : ''}` 
                     : 
                         `Suggested for you`
                     }

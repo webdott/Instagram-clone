@@ -73,7 +73,11 @@ export const getSuggestedProfiles = async (id, following) => {
     return profiles;
 }
 
-export const updateFollowersById = async (userDocId, followerId, isFollowedByProfile) => {
+export const updateFollowersById = async (
+    userDocId, // currently logged in user
+    followerId, // user that is followed by me
+    isFollowedByProfile // Am I followed by profile?
+) => {
     return firebase
         .firestore()
         .collection('users')
@@ -86,7 +90,11 @@ export const updateFollowersById = async (userDocId, followerId, isFollowedByPro
 }
 
 
-export const updateFollowingById = async (userDocId, followedId, isFollowingProfile) => {
+export const updateFollowingById = async (
+    userDocId, // currently logged in user
+    followedId, // user that's followed Id
+    isFollowingProfile // Am I following the profile?
+) => {
     return firebase
         .firestore()
         .collection('users')
@@ -110,7 +118,6 @@ export const isUserFollowingProfileUser = async (loggedInUserUsername, profileUs
         ...item.data(),
         docId: item.id
     }));
-
     return response;
 }
 
@@ -145,4 +152,15 @@ export const getPhotosById = async (userId, following) => {
     )
 
     return photosWithUserDetails;
+}
+
+export const toggleFollow = async(
+    isFollowingProfile, 
+    activeUserDocId, 
+    profileDocId, 
+    profileUserId, 
+    followingUserId
+) =>{
+    await updateFollowingById(activeUserDocId, profileUserId, isFollowingProfile);
+    await updateFollowersById(profileDocId, followingUserId, isFollowingProfile);
 }

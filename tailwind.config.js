@@ -49,7 +49,8 @@ module.exports = {
       'xs': '.85rem',
       'sm': '.9rem',
       'xxs': '.75rem',
-      '2xl': '1.5rem'
+      '2xl': '1.5rem',
+      '3xl': '2.2rem'
     },
     extend: {
       animation: {

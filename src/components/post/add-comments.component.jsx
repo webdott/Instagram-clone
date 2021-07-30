@@ -1,4 +1,4 @@
-import {forwardRef, useContext, useEffect, useRef, useState} from 'react';
+import {forwardRef, useContext, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import FirebaseContext from '../../contexts/firebaseContext';
 import UserContext from '../../contexts/userContext';
