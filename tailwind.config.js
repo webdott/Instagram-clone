@@ -4,7 +4,7 @@ module.exports = {
   },
   purge: {
     enabled: true,
-    content: ['./src/**/*.js', './src/**/*.jsx', './src/**/**/*.jsx', './src/**/**/*.jsx']
+    content: ['./src/**/*.js', './src/**/*.jsx', './src/**/**/*.js', './src/**/**/*.jsx']
   },
   theme: {
     fill: (theme) => ({
