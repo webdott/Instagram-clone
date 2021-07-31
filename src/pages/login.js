@@ -1,11 +1,10 @@
 import {useState, useContext, useEffect} from 'react';
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import FirebaseContext from '../contexts/firebaseContext';
 import * as ROUTES from '../constants/routes';
 import Footer from '../components/footer.component';
 
 const Login = () => {
-    const history = useHistory();
     const { firebase } = useContext(FirebaseContext);
 
     const [email, setEmail] = useState('');
@@ -19,7 +18,6 @@ const Login = () => {
 
         try {
             await firebase.auth().signInWithEmailAndPassword(email, password);
-            history.push(ROUTES.DASHBOARD);
         } catch (error) {
             setEmail('');
             setPassword('');
@@ -28,7 +26,7 @@ const Login = () => {
     };
 
     useEffect(() => {
-        document.title = 'Login | Instagram'
+        document.title = 'Login | Instagram-clone'
     }, [])
 
     return (

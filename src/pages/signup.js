@@ -1,12 +1,11 @@
 import {useState, useContext, useEffect} from 'react';
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import FirebaseContext from '../contexts/firebaseContext';
 import * as ROUTES from '../constants/routes';
 import { doesUserNameExist } from '../services/firebase-service';
 import Footer from '../components/footer.component';
 
 const Signup = () => {
-    const history = useHistory();
     const { firebase } = useContext(FirebaseContext);
 
     const [userName, setUserName] = useState('');
@@ -42,7 +41,6 @@ const Signup = () => {
                     dateCreated: Date.now()
                 });
 
-                history.push(ROUTES.DASHBOARD);
             } catch (error) {
                 setUserName('');
                 setFullName('');
@@ -51,13 +49,14 @@ const Signup = () => {
                 setError(error.message);
             }
         } else{
+            setUserName('');
             setError('That username is already taken, please use another');
         }
             
     };
 
     useEffect(() => {
-        document.title = 'Sign Up | Instagram'
+        document.title = 'Sign Up | Instagram-clone'
     }, [])
 
     return (

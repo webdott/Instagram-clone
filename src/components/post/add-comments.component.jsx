@@ -15,7 +15,6 @@ const AddComments = forwardRef(({ docId, comments, setComments }, ref ) => {
         e.preventDefault();
         const commentToPost = comment.trim();
         if(commentToPost.length >= 1) {
-            console.log('me');
             setComments([{ displayName, comment: commentToPost }, ...comments]);
             setComment('');
             ref.current.innerText = '';

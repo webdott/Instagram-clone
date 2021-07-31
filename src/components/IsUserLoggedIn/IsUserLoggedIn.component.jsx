@@ -4,7 +4,6 @@ import { Redirect, Route } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 
 const IsUserLoggedIn = ({ component: Component, user, ...rest }) => {
-    console.log(user);
     return (
         <Route
             {...rest}

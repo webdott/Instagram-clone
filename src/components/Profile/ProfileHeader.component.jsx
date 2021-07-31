@@ -12,23 +12,23 @@ const ProfileHeader = ({
     followerCount, 
     setFollowerCount ,
     profile: { userId: profileUserId, docId: profileDocId, fullName, emailAddress, username: profileUsername, followers, following }, 
-    }) => {
+}) => {
     const { user } = useUser();
     const [isFollowingUser, setIsFollowingUser] = useState(false);
     const [followerNames, setFollowerNames] = useState([]);
-    const activeButtonFollow = user.username && user.username !== profileUsername;
+    const activeButtonFollow = user?.username && user.username !== profileUsername;
 
     const handleToggleFollow = async () => {
         setIsFollowingUser(isFollowingUser => !isFollowingUser);
         setFollowerCount({
             followerCount: isFollowingUser ? followerCount - 1 : followerCount + 1,
         });
-        await toggleFollow(isFollowingUser, user.docId, profileDocId, profileUserId, user.userId);
+        await toggleFollow(isFollowingUser, user?.docId, profileDocId, profileUserId, user?.userId);
     }
 
     // Change document's title according to username....
     useEffect(() => {
-        if(profileUsername) document.title = `@${profileUsername} | Instagram`
+        if(profileUsername) document.title = `@${profileUsername} | Instagram-clone`
     }, [profileUsername]);
 
     useEffect(() => {
@@ -47,11 +47,11 @@ const ProfileHeader = ({
             setFollowerNames(followerNames);
         }
         
-        if(user.username && profileUserId) {
+        if(user?.username && profileUserId) {
             isLoggedInUserFollowingProfile();
             getSimilarFollowersNames();
         } 
-    }, [user.username,user.following, followers, profileUserId]);
+    }, [user?.username,user?.following, followers, profileUserId]);
 
     return (
         <div className='grid grid-cols-3 gap-4 justify-around mx-auto max-w-screen-lg'>

@@ -6,7 +6,7 @@ import * as ROUTES from '../constants/routes';
 const NotFound = () => {
     
     useEffect(() => {
-        document.title = 'Not Found | Instagram';
+        document.title = 'Not Found | Instagram-clone';
     }, [])
 
     return (
