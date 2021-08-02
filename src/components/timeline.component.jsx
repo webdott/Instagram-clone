@@ -6,7 +6,7 @@ const Timeline = () => {
     const { photos } = usePhotos();
 
     return (
-        <div className='timeline container col-span-2 pt-20 h-screen max-h-screen overflow-y-auto'>
+        <div className='timeline container max-w-custom-sm col-span-3 2md:col-span-2 pt-20 h-screen max-h-screen mx-auto overflow-y-auto'>
             {!photos ? (
                 [...new Array(4)].map((_, idx) => (
                     <div className='mb-4' key={idx} style={{width:'98%'}}>

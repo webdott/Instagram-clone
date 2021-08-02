@@ -57,7 +57,7 @@ const PostActions = ({ docId, totalLikes, likedPhoto, handleFocus, likers  }) =>
         <>
             <div className='flex justify-between p-4 pb-2'>
                 <div className="flex items-center w-full h-full">
-                    <i className={`${isLiked ? 'fas text-red-primary animate-wiggle' : 'far'} fa-heart text-2xl mr-4 cursor-pointer`} 
+                    <i className={`${isLiked ? 'fas text-red-primary animate-wiggle' : 'far'} fa-heart text-2.5xl mr-4 cursor-pointer`} 
                         tabIndex={0}
                         onClick={ handleLiked }
                         onKeyDown={(e) => (e.key === 'Enter') ? handleLiked() : null}

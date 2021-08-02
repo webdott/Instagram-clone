@@ -1,14 +1,17 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import PostHeader from './post-header.component';
 import PostImage from './post-image.component';
 import PostActions from './post-actions.component';
 import PostFooter from './post-footer.component';
 import PostComments from './post-comments.component';
+import PostModal from './post-modal.component';
 
 const Post = ({ content }) => {
     const commentInput = useRef(null);
     const handleFocus  = () => commentInput.current.focus();
+
+    const [modalOpen, setModalOpen] = useState(false);
 
     return (
         <div className='mb-6 rounded bg-white border border-gray-primary '>
@@ -21,13 +24,22 @@ const Post = ({ content }) => {
                 likers={content.likes}
                 handleFocus={handleFocus}
             />
-            <PostFooter userName={content.photoAuthorUserName} caption={content.caption} />
+            <PostFooter userName={content.photoAuthorUserName} caption={content.caption} withDisplayPicture={false} />
             <PostComments 
                 docId={content.docId} 
                 comments={content.comments} 
                 posted={content.dateCreated} 
                 commentInput={commentInput}
+                openPostModal={() => setModalOpen(true)}
+                noComments={false}
             />
+
+            {modalOpen && 
+                <PostModal 
+                    postContent={content}
+                    closePostModal={() => setModalOpen(false)}
+                />
+            }
         </div>
     );
 }

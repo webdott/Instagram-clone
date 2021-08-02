@@ -4,19 +4,20 @@ import PropTypes from 'prop-types';
 import { formatDistance } from 'date-fns';
 import AddComments from './add-comments.component';
 
-const PostComments = ({ docId, comments: allComments, posted, commentInput }) => {
+const PostComments = ({ docId, comments: allComments, posted, commentInput, openPostModal, noComments }) => {
     const [comments, setComments] = useState(allComments.reverse()); 
 
     return (
         <>
-            <div className="p-4 pt-1 pb-4">
+            <div className='p-4 pt-1 pb-4'>
                 {comments.length > 2 && (
                     <p
-                        className='text-sm text-gray-base font-semibold mb-1 cursor-pointer'
+                        className={`text-sm text-gray-base font-semibold mb-1 cursor-pointer ${noComments ? 'hidden' : ''}`}
+                        onClick={openPostModal}
                     >View all {comments.length} comments</p>
                 )}
                 {comments.slice(0, 2).map((comment, idx) => (
-                    <div className='flex items-center py-0 mb-1 break-words' key={`${comment.comment}${idx}-${comment.displayName}`}>
+                    <div className={`flex items-center py-0 mb-1 break-words ${noComments ? 'hidden' : ''}`} key={`${comment.comment}${idx}-${comment.displayName}`}>
                         <Link to={`/u/${comment.displayName}`}>
                             <p className='font-semibold mr-2 cursor-pointer'>{comment.displayName}</p>
                         </Link>
@@ -49,7 +50,9 @@ PostComments.propTypes = {
     docId: PropTypes.string.isRequired,
     comments: PropTypes.array.isRequired,
     posted: PropTypes.number.isRequired,
-    commentInput: PropTypes.object.isRequired
+    commentInput: PropTypes.object.isRequired,
+    openPostModal: PropTypes.func,
+    noComments: PropTypes.bool.isRequired
 }
 
 export default PostComments;
