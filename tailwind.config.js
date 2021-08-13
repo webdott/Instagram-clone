@@ -27,7 +27,7 @@ module.exports = {
       '1/2': '50%',
       '3/4': '75%',
       'modal-desc': '250px',
-      'picture': '70vh',
+      'picture': '60vh',
       '97': '97vh',
       'full': '100%',
       'screen': '100vh'
@@ -62,8 +62,10 @@ module.exports = {
       }
     },
     screens: {
+      // 'extra-sm': {'min': '346px'},
       'custom-sm': {'min': '540px'},
       'sm': {'min': '640px'},
+      'extra-sm': {'min': '750px'},
       'md': {'min': '768px'},
       '2md': {'min': '1000px'} 
     },
@@ -76,7 +78,23 @@ module.exports = {
       '3xl': '2.2rem'
     },
     extend: {
+      height: {
+        '100': '100px',
+        '130': '130px',
+        '150': '150px',
+        '170': '170px',
+        '200': '200px',
+        '230': '230px',
+        '300': '300px',
+      },
       width: {
+        '100': '100px',
+        '130': '130px',
+        '150': '150px',
+        '170': '170px',
+        '200': '200px',
+        '230': '230px',
+        '300': '300px',
         'modal-picture': '440px',
       },
       minWidth: {

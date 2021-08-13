@@ -17,7 +17,7 @@ const PostComments = ({ docId, comments: allComments, posted, commentInput, open
                     >View all {comments.length} comments</p>
                 )}
                 {comments.slice(0, 2).map((comment, idx) => (
-                    <div className={`flex items-center py-0 mb-1 break-words ${noComments ? 'hidden' : ''}`} key={`${comment.comment}${idx}-${comment.displayName}`}>
+                    <div className={`flex items-start py-0 mb-1 break-words ${noComments ? 'hidden' : ''}`} key={`${comment.comment}${idx}-${comment.displayName}`}>
                         <Link to={`/u/${comment.displayName}`}>
                             <p className='font-semibold mr-2 cursor-pointer'>{comment.displayName}</p>
                         </Link>

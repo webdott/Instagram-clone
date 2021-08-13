@@ -20,7 +20,6 @@ const PostActions = ({ docId, totalLikes, likedPhoto, handleFocus, likers  }) =>
     const { firebase, FieldValue } = useContext(FirebaseContext);
     const { user } = useUser();
 
-
     useEffect(() => {
         // get likers names
         const getSimilarLikersNames = async () => {

@@ -11,7 +11,9 @@ const usePhotos = () => {
 
     useEffect(() => {
         const getTimelinePhotos = async () => {
-            const [{ following }] = await getUserById(userId);
+            const user = await getUserById(userId);
+            let following = {};
+            if( user !== undefined ) following = user[0]?.following
             let followedUsersPhotos = [];
 
             //check if the user actually follows anyone
