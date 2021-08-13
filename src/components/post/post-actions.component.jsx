@@ -21,6 +21,10 @@ const PostActions = ({ docId, totalLikes, likedPhoto, handleFocus, likers  }) =>
     const { user } = useUser();
 
     useEffect(() => {
+        if(likers.includes(userId)) setIsLiked(true);
+    }, []);
+
+    useEffect(() => {
         // get likers names
         const getSimilarLikersNames = async () => {
             const likerIds = getSimilarFollowers(likers, user.following);
