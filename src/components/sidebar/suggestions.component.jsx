@@ -32,7 +32,7 @@ const Suggestions = ({ userId, docId, following }) => {
                         </Link>
                     </div>
                     <div>
-                        { profiles.map((profile) => {  
+                        { profiles.slice(0, 4).map((profile) => {  
                             return(
                                 <SuggestedProfile 
                                     fullName={profile.fullName}
