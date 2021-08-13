@@ -6,6 +6,7 @@ import Skeleton from 'react-loading-skeleton';
 import Avatar from 'react-avatar';
 import getSimilarFollowers from '../../helpers/getSimilarFollowers';
 import { getUserById } from '../../services/firebase-service';
+import { Link } from 'react-router-dom';
 
 const ProfileHeader = ({ 
     postCount, 
@@ -140,9 +141,9 @@ const ProfileHeader = ({
                                 ? ( 
                                     <>
                                         Followed by {' '} 
-                                        <span className='font-bold text-black-dark'>{followerNames[0]}</span> 
-                                        {followerNames[1] ? (<><span>, </span> <span className='font-bold text-black-dark'>{followerNames[1]}</span></>) : ''}
-                                        {followerNames[2] ? (<><span>, </span> <span className='font-bold text-black-dark'>{followerNames[2]}</span></>) : ''} 
+                                        <Link to={`/u/${followerNames[0]}`} className='font-bold text-black-dark'>{followerNames[0]}</Link> 
+                                        {followerNames[1] ? (<><span>, </span> <Link to={`/u/${followerNames[1]}`} className='font-bold text-black-dark'>{followerNames[1]}</Link></>) : ''}
+                                        {followerNames[2] ? (<><span>, </span> <Link to={`/u/${followerNames[2]}`} className='font-bold text-black-dark'>{followerNames[2]}</Link></>) : ''} 
                                         {followerNames.length > 3 ? ` + ${followerNames.length - 3} more` : ''} 
                                     </>
                                 )
