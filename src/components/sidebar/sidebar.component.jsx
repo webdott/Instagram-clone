@@ -10,7 +10,7 @@ const Sidebar = () => {
     } = useUser();
 
     return (
-        <div className='hidden 2md:block mt-28'>
+        <div className='col-span-3 my-16  2md:block 2md:col-span-1 2md:mt-28'>
             <User userName={username} fullName={fullName} email={emailAddress}/>
             <Suggestions userId={userId} docId={docId} following={following}/>
             <div className="sidebar-footer">
