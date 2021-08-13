@@ -29,11 +29,11 @@ const PostModal = ({ postContent, closePostModal }) => {
         const modalContainer = modalRef.current;
 
         if(modalRef) modalContainer.addEventListener('click', (e) => {
-            if(!(e.target instanceof SVGElement) && e.target.className.includes('modal-wrap')) {closePostModal()}
+            if(!(e.target instanceof SVGElement) && (e.target.className.includes('modal-wrap'))) {closePostModal()}
         });
         return () => {
             modalContainer.removeEventListener('click', (e) => {
-                if(!(e.target instanceof SVGElement) && e.target.className.includes('modal-wrap')) {closePostModal()}
+                if(!(e.target instanceof SVGElement) && (e.target.className.includes('modal-wrap'))) {closePostModal()}
             });
         };
     }, [closePostModal]);
@@ -92,6 +92,7 @@ const PostModal = ({ postContent, closePostModal }) => {
                         photoAuthorUserName={userName}
                         photoAuthorFullName={fullName}
                         photoAuthorEmailAddress={emailAddress}
+                        closePostModal={closePostModal}
                     />
                     <PostActions
                         docId={postContent.docId} 

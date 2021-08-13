@@ -6,7 +6,7 @@ import PostFooter from './post-footer.component';
 import { getUserByUsername } from '../../services/firebase-service';
 import Skeleton from 'react-loading-skeleton';
 
-const PostFullComments = ({ content, photoAuthorUserName, photoAuthorFullName, photoAuthorEmailAddress }) => {
+const PostFullComments = ({ content, photoAuthorUserName, photoAuthorFullName, photoAuthorEmailAddress,  closePostModal }) => {
     const [commentAuthorsNames, setCommentAuthorsNames] = useState([]);
 
     useEffect(() => {
@@ -41,13 +41,13 @@ const PostFullComments = ({ content, photoAuthorUserName, photoAuthorFullName, p
                                 </div>
                             )
                             : (
-                                <Link to={`/u/${comment.displayName}`} className='flex items-center mr-4'>
+                                <Link to={`/u/${comment.displayName}`} className='flex items-center mr-4' onClick={ closePostModal }>
                                     <Avatar email={commentAuthorsNames[idx].emailAddress} name={commentAuthorsNames[idx].fullName} round={true} size={'2.5rem'}/>
                                 </Link>
                             )
                         }
                         <div className='flex flex-col custom-sm:flex-row items-start py-0 mb-1 break-words relative h-16'>
-                            <Link to={`/u/${comment.displayName}`}>
+                            <Link to={`/u/${comment.displayName}`}  onClick={ closePostModal }>
                                 <p className='font-semibold mr-2 cursor-pointer'>{comment.displayName}</p>
                             </Link>
                             <p className='text-sm flex items-center'>
@@ -68,7 +68,8 @@ PostFullComments.propTypes = {
     content: PropTypes.object.isRequired,
     photoAuthorUserName: PropTypes.string,
     photoAuthorFullName: PropTypes.string,
-    photoAuthorEmailAddress: PropTypes.string
+    photoAuthorEmailAddress: PropTypes.string,
+    closePostModal: PropTypes.func.isRequired
 }
 
 export default PostFullComments;
