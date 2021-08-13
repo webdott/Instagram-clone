@@ -30,7 +30,7 @@ const Login = () => {
     }, [])
 
     return (
-        <div className='h-screen'>
+        <div className='h-screen flex flex-col justify-center'>
             <div className='container flex mx-auto max-w-screen-md items-center justify-center'>
                 <div className="flex w-2/4">
                     <img src="/images/iphone-with-profile.jpeg" alt="iphone with instagram app"/>
