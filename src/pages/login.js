@@ -32,10 +32,10 @@ const Login = () => {
     return (
         <div className='h-screen flex flex-col justify-center'>
             <div className='container flex mx-auto max-w-screen-md items-center justify-center'>
-                <div className="flex w-2/4">
+                <div className="hidden custom-sm:flex w-2/4">
                     <img src="/images/iphone-with-profile.jpeg" alt="iphone with instagram app"/>
                 </div>
-                <div className="flex flex-col w-2/5">
+                <div className="flex flex-col w-4/5 custom-sm:w-2/5">
                     <div className='flex flex-col items-center w-full p-4 mb-4 bg-white rounded border border-gray-primary'>    
                         <h1 className="flex justify-center w-full">
                             <img 
