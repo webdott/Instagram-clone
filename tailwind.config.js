@@ -62,7 +62,6 @@ module.exports = {
       }
     },
     screens: {
-      // 'extra-sm': {'min': '346px'},
       'custom-sm': {'min': '540px'},
       'sm': {'min': '640px'},
       'extra-sm': {'min': '750px'},

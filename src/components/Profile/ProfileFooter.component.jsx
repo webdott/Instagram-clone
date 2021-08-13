@@ -23,7 +23,7 @@ const ProfileFooter = ({ photos }) => {
                                 setModalOpen(true);
                                 setContent(photo);
                             }}
-                            className='relative group cursor-pointer w-100 h-100 extra-sm:w-100 extra-sm:h-100 custom-sm:w-170 
+                            className='profile-footer relative group cursor-pointer w-100 h-100 extra-sm:w-100 extra-sm:h-100 custom-sm:w-170 
                                 custom-sm:h-170 sm:w-200 sm:h-200 md:h-230 md:w-230 2md:w-300 2md:h-300'
                         >
                             <img src={photo.imageSrc} alt={photo.caption} className='w-full h-full object-cover'/>

@@ -57,3 +57,17 @@ body{
 .add-comment p{
   top: 15%;
 }
+
+@media only screen and (min-width: 360px) and (max-width: 420px){
+  .profile-footer{
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media only screen and (min-width: 421px) and (max-width: 539px){
+  .profile-footer{
+    width: 130px;
+    height: 130px;
+  }
+}
