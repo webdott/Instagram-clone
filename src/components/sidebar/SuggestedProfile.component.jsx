@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import Avatar from 'react-avatar';
 import { getUserById, updateFollowersById, updateFollowingById } from '../../services/firebase-service';
@@ -19,6 +19,7 @@ const SuggestedProfile = ({
     const [followed, setFollowed] = useState(false);
     const [followerNames, setFollowerNames] = useState([]);
     const { user } = useUser();
+    const history = useHistory();
 
     useEffect(() => {
         const getSimilarFollowersNames = async () => {
@@ -41,6 +42,8 @@ const SuggestedProfile = ({
             
             // update following of the user's id by the followed id
             await updateFollowingById(loggedUserDocId, profileId, false);
+
+            history.go(0);
         } catch (err) {
             console.log(err);
         }
